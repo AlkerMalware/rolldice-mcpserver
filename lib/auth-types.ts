@@ -48,4 +48,34 @@ export interface CORSConfig {
   origin: string;
   methods: string;
   headers: string;
+  maxAge?: string;
+}
+
+// Common OAuth 2.1 parameter validation interface
+export interface OAuth21AuthParams {
+  response_type?: string | null;
+  client_id?: string | null;
+  redirect_uri?: string | null;
+  scope?: string | null;
+  state?: string | null;
+  code_challenge?: string | null;
+  code_challenge_method?: string | null;
+  resource?: string | null;
+}
+
+// Token exchange parameters
+export interface TokenExchangeParams {
+  grant_type?: string | null;
+  code?: string | null;
+  redirect_uri?: string | null;
+  client_id?: string | null;
+  code_verifier?: string | null;
+}
+
+// Global type declarations
+declare global {
+  // eslint-disable-next-line no-var
+  var authCodes: Map<string, AuthCodeData> | undefined;
+  // eslint-disable-next-line no-var
+  var mcpDebugToken: string | undefined;
 }
