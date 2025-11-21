@@ -14,7 +14,8 @@ interface ToolExtra {
 }
 
 // Store auth context for current request
-const currentAuthInfo: AuthInfo | null = null;
+// eslint-disable-next-line prefer-const
+let currentAuthInfo: AuthInfo | null = null;
 
 const handler = createMcpHandler(
   (server) => {
