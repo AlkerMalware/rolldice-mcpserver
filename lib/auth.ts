@@ -48,6 +48,7 @@ export function verifyPKCE(
   codeChallenge: string,
   codeVerifier: string,
 ): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const crypto = require("node:crypto");
   const hash = crypto
     .createHash("sha256")
@@ -126,9 +127,11 @@ export async function verifyGoogleToken(
     }
 
     // Check for injected debug token
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore - Global debug token for testing
     if (!bearerToken && globalThis.mcpDebugToken) {
       console.log("🧪 Using injected debug token");
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore - Global debug token for testing
       bearerToken = globalThis.mcpDebugToken;
     }
