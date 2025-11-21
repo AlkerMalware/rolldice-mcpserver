@@ -25,7 +25,7 @@ const handler = createMcpHandler(
       rollDiceTool.schema,
       async ({ sides }, extra?: ToolExtra) => {
         // Extract auth info from the request headers if currentAuthInfo is not available
-        let authInfo = currentAuthInfo;
+        let authInfo: AuthInfo | null | undefined = currentAuthInfo;
 
         if (!authInfo) {
           const authHeader = extra?.requestInfo?.headers?.authorization || "";
