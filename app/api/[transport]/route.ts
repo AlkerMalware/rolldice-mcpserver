@@ -3,6 +3,8 @@ import { createMcpHandler } from "mcp-handler";
 import { rollDice, rollDiceTool } from "@/lib/dice";
 import { verifyGoogleToken } from "@/lib/auth";
 import type { AuthInfo } from "@modelcontextprotocol/sdk/server/auth/types.js";
+import arcjet from "@/lib/arcjet";
+import { NextResponse } from "next/server";
 
 // Type definitions for better type safety
 interface ToolExtra {
@@ -17,7 +19,7 @@ interface ToolExtra {
 // eslint-disable-next-line prefer-const
 let currentAuthInfo: AuthInfo | null | undefined = null;
 
-const handler = createMcpHandler(
+const mcpHandler = createMcpHandler(
   (server) => {
     server.tool(
       rollDiceTool.name,
@@ -71,4 +73,19 @@ const handler = createMcpHandler(
     verboseLogs: true,
   }
 );
-export { handler as GET, handler as POST };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function protectedHandler(req: Request, context: any) {
+  const decision = await arcjet.protect(req, { requested: 1 });
+  if (decision.isDenied()) {
+    return NextResponse.json(
+      { error: "Too Many Requests", reason: decision.reason },
+      { status: 429 }
+    );
+  }
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore - mcpHandler expects 1 argument but Next.js passes 2
+  return mcpHandler(req, context);
+}
+
+export { protectedHandler as GET, protectedHandler as POST };
