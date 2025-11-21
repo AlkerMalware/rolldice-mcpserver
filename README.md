@@ -1,53 +1,67 @@
-# 🎲 Roll Dice MCP Server
+# 🎲 Secure Roll Dice MCP Server
 
-A beautiful web application and Model Context Protocol (MCP) server that brings dice rolling functionality directly to Claude Desktop. Built with Next.js, shadcn/ui, and the MCP Handler library with server actions for seamless web testing.
+A secure, production-ready Model Context Protocol (MCP) server with OAuth 2.1 authentication and Arcjet protection.
 
-![Roll Dice MCP Server](https://via.placeholder.com/800x400/0f0f0f/ffffff?text=Roll+Dice+MCP+Server)
+![Security Status](https://img.shields.io/badge/Security-OAuth%202.1-green)
+![Protection](https://img.shields.io/badge/Protection-Arcjet-blue)
+![Deployment](https://img.shields.io/badge/Deployed-Vercel-black)
 
-## ✨ Features
+## 🔒 Security Features
 
-- 🎲 **Roll Any Dice**: Support for any number of sides (minimum 2) - d4, d6, d20, d100, or custom
-- 🌐 **Beautiful Web Interface**: Modern, responsive UI with detailed setup instructions
-- 🔄 **Server Actions Integration**: Web interface uses the same logic as the MCP server
-- 🌙 **Dark/Light Mode**: Toggle between themes with dark mode as default
-- 📋 **Copy-to-Clipboard**: Easy configuration copying for Claude Desktop setup
-- 🔧 **Multiple Transports**: Supports SSE, stdio, and other MCP transport protocols
-- 🚀 **Vercel Ready**: Optimized for deployment on Vercel platform
-- 📱 **Responsive Design**: Works perfectly on desktop and mobile devices
-- 🧠 **Educational**: Detailed explanations of MCP protocol and architecture
+- **OAuth 2.1 Authentication**: Secure Google Sign-In integration.
+- **Arcjet Protection**: Rate limiting (Token Bucket) and bot detection.
+- **Secure Headers**: Validated Authorization Bearer tokens required.
+- **Audit Logging**: Comprehensive request and security decision logging.
 
-## 🖥️ Live Demo
+## 📚 Documentation
 
-Visit the live application: [Your Vercel URL here]
+- **Security Architecture**: [View /mcp-security](https://rolldice-mcpserver.vercel.app/mcp-security)
+- **Live Demo**: [https://rolldice-mcpserver.vercel.app](https://rolldice-mcpserver.vercel.app)
 
 ## 🚀 Quick Start
 
 ### 1. Clone and Install
 
 ```bash
-git clone https://github.com/gocallum/rolldice-mcpserver.git
+git clone https://github.com/AlkerMalware/rolldice-mcpserver.git
 cd rolldice-mcpserver
-npm install
+pnpm install
 ```
 
-### 2. Start Development Server
+### 2. Environment Setup
+
+Create `.env.local`:
+```env
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+ARCJET_KEY=your_arcjet_key
+```
+
+### 3. Start Development Server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
-The application will be available at:
-- **Web Interface**: `http://localhost:3000` (setup instructions, documentation, and testing)
-- **MCP Endpoint**: `http://localhost:3000/api/[transport]` (for Claude Desktop)
+## 🤖 Authenticated MCP Setup
 
-## 🤖 Setting Up with Claude Desktop
+Add to your `claude_desktop_config.json`:
 
-The web interface at `http://localhost:3000` provides detailed, step-by-step instructions with copy-to-clipboard functionality. Here's the quick version:
+```json
+{
+  "mcpServers": {
+    "secure-rolldice": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://rolldice-mcpserver.vercel.app/api/mcp"
+      ]
+    }
+  }
+}
+```
 
-### 1. Install Claude Desktop
-Download from [claude.ai/download](https://claude.ai/download)
-
-### 2. Configure MCP Connection
 Add this to your Claude Desktop config file:
 
 **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`  
