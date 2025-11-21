@@ -68,15 +68,6 @@ const handler = createMcpHandler(
     basePath: "/api", // this needs to match where the [transport] is located.
     maxDuration: 60,
     verboseLogs: true,
-    // Add authentication middleware
-    authenticate: async (req) => {
-      const authInfo = await verifyGoogleToken(req);
-      if (!authInfo) {
-        return undefined;
-      }
-      currentAuthInfo = authInfo;
-      return authInfo;
-    },
   }
 );
 export { handler as GET, handler as POST };
