@@ -14,7 +14,7 @@ interface ToolExtra {
 }
 
 // Store auth context for current request
-let currentAuthInfo: AuthInfo | null = null;
+const currentAuthInfo: AuthInfo | null = null;
 
 const handler = createMcpHandler(
   (server) => {
